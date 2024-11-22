@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 局域网聊天</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>注册</h2>
+        <input type="text" id="register-username" placeholder="用户名">
+        <input type="password" id="register-password" placeholder="密码">
+        <button onclick="register()">注册</button>
+        <p>已有账号？<a href="/">登录</a></p>
+    </div>
+    <script>
+        function register() {
+            const username = document.getElementById('register-username').value.trim();
+            const password = document.getElementById('register-password').value.trim();
+            if (username && password) {
+                fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        window.location.href = '/';
+                    }
+                });
+            } else {
+                alert('请输入用户名和密码');
+            }
+        }
+    </script>
+</body>
+</html>
